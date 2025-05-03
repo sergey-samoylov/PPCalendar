@@ -57,7 +57,7 @@ alias cal='ppcal'  # Add to ~/.bashrc or ~/.zshrc
 |--------------|-------------|------------|
 | Colors       | ❌ No        | ✅ Yes      |
 | Today Highlight | ✅ Yes    | ✅ Reverse video |
-| 3-Month View | ❌ ✅ Yes   | ✅ Yes      |
+| 3-Month View | ✅ Yes   | ✅ Yes      |
 | Month/Year   | ❌ YYYY-MM  | ✅ MM YYYY  |
 | Locale Support | Limited   | ✅ Full     |
 
