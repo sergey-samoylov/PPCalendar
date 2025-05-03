@@ -30,7 +30,7 @@ ppcal 2025
 ppcal 6 2026
 ```
 
-![Usage via cal command year view](img/usage_via_cal_year_view.png)
+![Usage via cal command year view](img/usage_via_cal_command_year_view.png)
 
 ## Key Features
 
