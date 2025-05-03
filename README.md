@@ -56,9 +56,9 @@ alias cal='ppcal'  # Add to ~/.bashrc or ~/.zshrc
 | Feature       | System `cal` | PPCalendar |
 |--------------|-------------|------------|
 | Colors       | ❌ No        | ✅ Yes      |
-| Today Highlight | ✅ Yes    | ✅ Reverse video |
+| Today Highlight | ❌✅ Partial    | ✅ Everywhere |
 | 3-Month View | ✅ Yes   | ✅ Yes      |
-| Month/Year   | ❌ YYYY-MM  | ✅ MM YYYY  |
+| Month/Year   | ✅ MM YYYY | ✅ MM YYYY  |
 | Locale Support | Limited   | ✅ Full     |
 
 ## For Developers
