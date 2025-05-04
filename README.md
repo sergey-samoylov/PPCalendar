@@ -17,7 +17,7 @@ pip install ppcalendar
 ## Usage
 
 ```bash
-# Show current month
+# Show current month, also will work as just `cal`
 ppcal
 
 # Show 3-month view (previous/current/next)
@@ -28,6 +28,14 @@ ppcal 2025
 
 # Show specific month (June 2024 example)
 ppcal 6 2026
+
+# Add events for a day (also supports yearly and monthly events)
+ppcal add
+
+# Will open an interactive menu for adding an event.
+# XXXX-XX-XX - will add an event.
+#      XX-XX - good for birthdays, once a year event
+#         XX - an every month event 
 ```
 
 ![Usage via cal command year view](img/usage_via_cal_command_year_view.png)
