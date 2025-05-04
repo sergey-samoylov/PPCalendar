@@ -1,6 +1,6 @@
 [project]
 name = "ppcalendar"
-version = "0.1.1"
+version = "0.1.4"
 description = "Beautiful terminal calendar with seasonal colors"
 readme = "README.md"
 authors = [{name = "Sergey Samoylov", email = "linews@yandex.ru"}]
@@ -14,8 +14,8 @@ classifiers = [
 ]
 
 [project.scripts]
-ppcal = "ppcalendar.ppcalendar:main"
-cal = "ppcalendar.ppcalendar:main"  # Optional system replacement
+ppcal = "ppcalendar.main:main_cli"
+cal = "ppcalendar.main:main_cli"
 
 [build-system]
 requires = ["setuptools>=65.5.1", "uv>=0.1.0"]
