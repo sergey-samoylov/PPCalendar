@@ -1,4 +1,6 @@
-# 📆 HOWTO Use `ppcalendar` — Your Terminal Calendar Assistant
+# 📆 HOWTO 
+
+## Use `ppcalendar` — Your Terminal Calendar Assistant
 
 Welcome to `ppcalendar` — a colorful, fast, and elegant terminal calendar  
 with event support and natural controls.

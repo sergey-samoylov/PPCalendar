@@ -14,6 +14,8 @@ uv tool install ppcalendar
 pip install ppcalendar
 ```
 
+![Month view and events for the day](img/events.png)
+
 ## Usage
 
 ```bash
