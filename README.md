@@ -1,6 +1,6 @@
 # PPCalendar - Pure Python Calendar
 
-![Terminal Screenshot showing colorful calendar](img/ppcalendar.png)
+![Month view and events for the day](img/events.png)
 
 A modern replacement for your system's `cal` command with Python-powered features.
 
@@ -14,7 +14,7 @@ uv tool install ppcalendar
 pip install ppcalendar
 ```
 
-![Month view and events for the day](img/events.png)
+![Colorful 3-months calendar](img/ppcalendar.png)
 
 ## Usage
 
