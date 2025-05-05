@@ -17,30 +17,46 @@ def ensure_csv_exists() -> None:
             writer.writerow(["date", "time", "event"])
 
 def parse_date_input(raw: str) -> str:
-    """Parse various date formats into full YYYY-MM-DD."""
-    now = datetime.now()
-    match raw.strip().count("-"):
-        case 0:  # monthly recurring like "05"
-            month = int(raw)
-            return f"*-{month:02d}-*"
-        case 1:  # yearly recurring like "05-13"
-            month, day = map(int, raw.split("-"))
-            return f"*-{month:02d}-{day:02d}"
-        case 2:  # full date
-            return raw.strip()
-        case _:  # empty input
-            return now.strftime("%Y-%m-%d")
+    """Parse date string into 'YYYY-MM-DD'. Accepts multiple formats."""
+    if not raw.strip():
+        return datetime.today().strftime("%Y-%m-%d")
+
+    raw = raw.strip().replace("/", "-")
+    today = datetime.today()
+
+    parts = raw.split("-")
+    try:
+        if len(parts) == 3:
+            year, month, day = map(int, parts)
+        elif len(parts) == 2:
+            year = today.year
+            month, day = map(int, parts)
+        elif len(parts) == 1:
+            year = today.year
+            month = today.month
+            day = int(parts[0])
+        else:
+            raise ValueError
+        return datetime(year, month, day).strftime("%Y-%m-%d")
+    except Exception as exc:
+        raise ValueError("Invalid date format.") from exc
+
 
 def parse_time_input(raw: str) -> str:
-    """Parse time in HH:MM or HHMM or return current time."""
-    raw = raw.strip()
-    if not raw:
-        return datetime.now().strftime("%H:%M")
-    if ":" in raw:
-        return raw
+    """Convert time input into 'HH:MM'. Return empty string for all-day."""
+    if not raw.strip():
+        return ""  # All-day event
+    raw = raw.strip().replace(":", "")
     if len(raw) == 4:
-        return f"{raw[:2]}:{raw[2:]}"
-    return raw  # fallback, assume already correct
+        hour = int(raw[:2])
+        minute = int(raw[2:])
+    elif len(raw) == 3:
+        hour = int(raw[0])
+        minute = int(raw[1:])
+    else:
+        raise ValueError("Invalid time format.")
+    return f"{hour:02}:{minute:02}"
+
 
 def interactive_add_event() -> None:
     """Prompt user to add a new event interactively."""
@@ -51,12 +67,12 @@ def interactive_add_event() -> None:
         print("❗ No description. Cancelled.")
         return
 
-    raw_time = input("⏰ Time (13:00 / 1300) [Enter = now]: ")
+    raw_time = input("⏰ Time (13:00 / 1300) [Enter = all day]: ")
     time = parse_time_input(raw_time)
 
-    raw_date = input("📅 Date (YYYY-MM-DD / MM-DD / DD) "
-                     "[Enter = today]: ")
+    raw_date = input("📅 Date (YYYY-MM-DD / MM-DD / DD) [Enter = today]: ")
     date = parse_date_input(raw_date)
+
 
     with open(CSV_FILE, "a", newline="") as f:
         writer = csv.writer(f)

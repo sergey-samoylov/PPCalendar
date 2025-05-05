@@ -63,13 +63,12 @@ alias cal='ppcal'  # Add to ~/.bashrc or ~/.zshrc
 
 ## Why PPCalendar?
 
-| Feature       | System `cal` | PPCalendar |
-|--------------|-------------|------------|
-| Colors       | ❌ No        | ✅ Yes      |
-| Today Highlight | ❌✅ Partial    | ✅ Everywhere |
-| 3-Month View | ✅ Yes   | ✅ Yes      |
-| Month/Year   | ✅ MM YYYY | ✅ MM YYYY  |
-| Locale Support | Limited   | ✅ Full     |
+It is simply just better!
+- colors for year, months, weekdays and Sundays
+- add events for today
+- suppots emoji
+- minimalist
+- fast
 
 ## For Developers
 
