@@ -190,14 +190,6 @@ Usage:
         cal()
         return
 
-    if args[0] == "add":
-        interactive_add_event()
-        return
-
-    if args[0] == "del":
-        interactive_delete_event()
-        return
-
     if len(args) == 1:
         arg = args[0]
         if arg == '3':
