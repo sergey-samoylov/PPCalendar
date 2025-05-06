@@ -191,7 +191,7 @@ Usage:
         return
 
     if args[0] == "add":
-        add_event()
+        interactive_add_event()
         return
 
     if args[0] == "del":

@@ -1,6 +1,6 @@
 [project]
 name = "ppcalendar"
-version = "0.1.8"
+version = "0.1.9"
 description = "Beautiful terminal calendar with seasonal colors"
 readme = "README.md"
 authors = [{name = "Sergey Samoylov", email = "linews@yandex.ru"}]
