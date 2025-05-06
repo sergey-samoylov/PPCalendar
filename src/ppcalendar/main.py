@@ -52,11 +52,14 @@ def main_cli() -> None:
     """CLI entry logic — handles subcommands."""
     if len(sys.argv) > 1 and sys.argv[1] == "add":
         interactive_add_event()
+        return
     elif len(sys.argv) > 1 and sys.argv[1] == "del":
         interactive_delete_event()
+        return
     elif len(sys.argv) == 1:
         main()
         show_today_events()
+        return
     else:
         main()
 
