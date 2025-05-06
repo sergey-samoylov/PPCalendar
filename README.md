@@ -38,6 +38,10 @@ ppcal add
 # XXXX-XX-XX - will add an event.
 #      XX-XX - good for birthdays, once a year event
 #         XX - an every month event 
+
+# Delete an event from your list
+ppcal del
+
 ```
 
 ![Usage via cal command year view](img/usage_via_cal_command_year_view.png)

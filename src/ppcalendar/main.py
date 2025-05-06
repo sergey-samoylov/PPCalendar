@@ -2,8 +2,12 @@
 
 import sys
 
+from .events import (
+    interactive_add_event,
+    interactive_delete_event,
+    get_today_events,
+    )
 from .ppcalendar import main  # Original calendar rendering logic
-from .events import interactive_add_event, get_today_events
 
 
 COLORS = {
@@ -48,6 +52,8 @@ def main_cli() -> None:
     """CLI entry logic — handles subcommands."""
     if len(sys.argv) > 1 and sys.argv[1] == "add":
         interactive_add_event()
+    if len(sys.argv) > 1 and sys.argv[1] == "del":
+        interactive_delete_event()
     elif len(sys.argv) == 1:
         main()
         show_today_events()

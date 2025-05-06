@@ -1,11 +1,14 @@
 """Creates csv/(database in the future) and returns events for current day."""
 
 import csv
+
 from datetime import datetime
 from pathlib import Path
 
+
 DB_PATH = Path.home() / ".local" / "share" / "ppcalendar" / "db"
 CSV_FILE = DB_PATH / "events.csv"
+
 
 def ensure_csv_exists() -> None:
     """Ensure the database CSV file exists with headers."""
@@ -15,6 +18,7 @@ def ensure_csv_exists() -> None:
         with open(CSV_FILE, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(["date", "time", "event"])
+
 
 def parse_date_input(raw: str) -> str:
     """Parse date string into 'YYYY-MM-DD'. Accepts multiple formats."""
@@ -102,4 +106,54 @@ def get_today_events() -> list[tuple[str, str]]:
 
     # Sort: All-day (no time) first, then by time
     return sorted(results, key=lambda x: (x[0] != "", x[0]))
+
+
+def interactive_delete_event() -> None:
+    """Prompt user to delete an event from today by selecting it."""
+    events = get_today_events()
+    if not events:
+        print("📭 No events for today.")
+        return
+
+    print("\n🗑️ Events for today:")
+    for idx, (time, event) in enumerate(events, start=1):
+        label = time if time else "All Day"
+        print(f"[{idx}] {label} {event}")
+
+    raw_choice = input("\nWhich one to delete [Enter = None]: ").strip()
+    if not raw_choice:
+        print("❌ Cancelled.")
+        return
+
+    try:
+        index = int(raw_choice) - 1
+        if not (0 <= index < len(events)):
+            raise IndexError
+    except Exception:
+        print("🚫 Invalid selection.")
+        return
+
+    to_delete = events[index]
+    deleted = False
+
+    rows = []
+    with open(CSV_FILE, newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if (
+                not deleted
+                and row["date"] == datetime.today().strftime("%Y-%m-%d")
+                and row["time"] == to_delete[0]
+                and row["event"] == to_delete[1]
+            ):
+                deleted = True
+                continue  # Skip this row (i.e., delete)
+            rows.append(row)
+
+    with open(CSV_FILE, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["date", "time", "event"])
+        writer.writeheader()
+        writer.writerows(rows)
+
+    print(f"🗑️ Deleted: {to_delete[0]} {to_delete[1]}")
 

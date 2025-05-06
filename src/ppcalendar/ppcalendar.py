@@ -1,5 +1,7 @@
 import calendar
 import locale
+import sys
+
 from datetime import date
 from typing import Generator, Iterable, Optional, Union
 
@@ -170,22 +172,30 @@ def cal(arg: Optional[Union[int, str]] = None, year: Optional[int] = None) -> No
 
 def main():
     """Command-line entry point that exactly matches cal()'s capabilities"""
-    import sys
-    from datetime import date
 
     today = date.today()
     args = sys.argv[1:]
 
     usage = """
 Usage:
-  ppcal           Show current month
-  ppcal 3         Show 3-month view (prev/current/next)
-  ppcal 2024      Show full year view
-  ppcal 6 2024    Show June 2024
+  ppcal            Show current month
+  ppcal 3          Show 3-month view (prev/current/next)
+  ppcal 2024       Show full year view
+  ppcal 6 2024     Show June 2024
+  ppcal add        Add a new event
+  ppcal del        Delete an event from today
 """
 
     if not args:
         cal()
+        return
+
+    if args[0] == "add":
+        add_event()
+        return
+
+    if args[0] == "del":
+        interactive_delete_event()
         return
 
     if len(args) == 1:
