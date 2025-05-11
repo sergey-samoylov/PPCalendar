@@ -6,6 +6,8 @@ from datetime import datetime
 from pathlib import Path
 
 
+DAILY = {"*-*-*", "every day", "daily", "каждый день", "ежедневно"}
+
 DB_PATH = Path.home() / ".local" / "share" / "ppcalendar" / "db"
 CSV_FILE = DB_PATH / "events.csv"
 
@@ -22,11 +24,15 @@ def ensure_csv_exists() -> None:
 
 def parse_date_input(raw: str) -> str:
     """Parse date string into 'YYYY-MM-DD'. Accepts multiple formats."""
-    if not raw.strip():
+    raw = raw.strip()
+    if not raw:
         return datetime.today().strftime("%Y-%m-%d")
 
-    raw = raw.strip().replace("/", "-")
+    raw = raw.replace("/", "-")
     today = datetime.today()
+
+    if raw.lower() in DAILY:
+        return "*-*-*"
 
     parts = raw.split("-")
     try:
@@ -40,10 +46,12 @@ def parse_date_input(raw: str) -> str:
             month = today.month
             day = int(parts[0])
         else:
-            raise ValueError
+            raise ValueError("Invalid date format")
+
         return datetime(year, month, day).strftime("%Y-%m-%d")
-    except Exception as exc:
-        raise ValueError("Invalid date format.") from exc
+    except (ValueError, TypeError) as e:
+        print(f"Error: {e}.\nUse 'daily' or valid dates like YYYY-MM-DD, MM-DD, or DD")
+        return ""
 
 
 def parse_time_input(raw: str) -> str:
@@ -74,8 +82,10 @@ def interactive_add_event() -> None:
     raw_time = input("⏰ Time (13:00 / 1300) [Enter = all day]: ")
     time = parse_time_input(raw_time)
 
-    raw_date = input("📅 Date (YYYY-MM-DD / MM-DD / DD) [Enter = today]: ")
-    date = parse_date_input(raw_date)
+    date = ""
+    while not date:
+        raw_date = input("📅 Date (YYYY-MM-DD / MM-DD / DD) [Enter = today]: ")
+        date = parse_date_input(raw_date)
 
 
     with open(CSV_FILE, "a", newline="") as f:
@@ -101,6 +111,7 @@ def get_today_events() -> list[tuple[str, str]]:
                 row_date == today_str
                 or row_date.endswith(month_day)
                 or row_date.endswith(day_only)
+                or row_date == "*-*-*"
             ):
                 results.append((row["time"], row["event"]))
 
@@ -142,7 +153,6 @@ def interactive_delete_event() -> None:
         for row in reader:
             if (
                 not deleted
-                and row["date"] == datetime.today().strftime("%Y-%m-%d")
                 and row["time"] == to_delete[0]
                 and row["event"] == to_delete[1]
             ):
