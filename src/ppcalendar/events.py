@@ -109,15 +109,14 @@ def get_today_events() -> list[tuple[str, str]]:
             row_date = row["date"]
             if (
                 row_date == today_str
-                or row_date.endswith(month_day)
-                or row_date.endswith(day_only)
+                or (row_date.startswith('*-') and row_date.endswith(month_day))
+                or (not row_date.startswith('*-') and row_date.endswith(day_only))
                 or row_date == "*-*-*"
             ):
                 results.append((row["time"], row["event"]))
 
     # Sort: All-day (no time) first, then by time
     return sorted(results, key=lambda x: (x[0] != "", x[0]))
-
 
 def interactive_delete_event() -> None:
     """Prompt user to delete an event from today by selecting it."""
